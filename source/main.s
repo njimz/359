@@ -3,18 +3,21 @@
 .section    .text
 
 .global drawTile
-	
+.global DrawPixel
+
 .global main
 main: 
 
 	ldr	r0, =frameBufferInfo
 	bl	initFbInfo	
 	
-	
+	bl  makeBackground
 	bl  makeCeiling
 	bl  makeLeftWall
 	bl  makeRightWall
 	bl  makeTypeOneBrick
+	bl	makeTypeTwoBrick
+	bl	makeTypeThreeBrick
 	  
 haltLoop$:
 	b		haltLoop$
