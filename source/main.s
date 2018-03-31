@@ -2,8 +2,12 @@
 @ Code section
 .section    .text
 
-.global drawTile
+.global DrawTile
 .global DrawPixel
+.global DrawBrick
+.global DrawCursor
+.global DrawMenu
+.global DrawBall
 
 .global main
 main: 
@@ -16,96 +20,242 @@ main:
 	bl  makeLeftWall
 	bl  makeRightWall
 	bl  makeTypeOneBrick
-	bl	makeTypeTwoBrick
-	bl	makeTypeThreeBrick
-	  
+	bl  makeTypeTwoBrick
+	bl  makeTypeThreeBrick
+	
+ 
 haltLoop$:
 	b		haltLoop$
 
-
-drawTile:
-	push {r4- r10, lr}
+//////////////////////////////////////////
+//										//
+//										//
+//										//
+//										//
+//////////////////////////////////////////
+DrawMenu:
+	push 	{r4- r10, lr}
 	
-	mov   r4, r0						@ X start coordinate
-	mov   r5, r1						@ Y start coordinate
-	mov   r6, r2						@ Image address
+	mov   	r4, r0							@ X start coordinate
+	mov   	r5, r1							@ Y start coordinate
+	mov  	r6, r2							@ Image address
 	
-	add   r7, r4, #32					@ Initialize the length
-	add   r8, r5, #32					@ Initialize the height
-
-	mov   r9, #0						@ Pixel counter
-	mov	  r10, r4						@ r10 = r4, so we can reinitialize r4
+	add  	r7, r4, #400					@ Initialize the width
+	add   	r8, r5, #640 					@ Initialize the height
 	
-loop1:
-	mov	  r0, r4						@ Pass x coordinate into DrawPixel
-	mov	  r1, r5						@ Pass y coordinate into DrawPixel
 	
-	ldr   r2, [r6, r9, lsl #2]			@ 
-	bl    DrawPixel						@ 
-	add   r9, #1
-	add   r4, #1
+	
+	mov   	r9, #0							@ Pixel counter
+	mov		r10, r4							@ r10 holds x start coord for Y iterations
+	
+menuLoop:
+	mov	  	r0, r4							@ Pass x coordinate into DrawPixel
+	mov	  	r1, r5							@ Pass y coordinate into DrawPixel
+	
+	ldr   	r2, [r6, r9, lsl #2]			@ 
+	bl    	DrawPixel						@ 
+	add   	r9, #1							@	
+	add   	r4, #1							@
 	
 
 				 
-	cmp   r4, r7						@ Hard coded for easier alterations later on
-	blt   loop1							@ 
+	cmp   	r4, r7							@ 
+	blt   	menuLoop						@ 
 
-	mov    r4, r10						@ Hard coded for easier alterations later on
-	add    r5, #1						@
+	mov		r4, r10							@ r10 moved into to r4 to reinitialize
+	add    	r5, #1							@
+	
+	cmp		r5, r8							@ 
+	blt		menuLoop						@ 
+	
+	pop		{r4-r10, pc}					@
+
+
+//////////////////////////////////////////
+//										//
+//										//
+//										//
+//										//
+//////////////////////////////////////////
+DrawTile:
+	push {r4- r10, lr}						@
+	
+	mov   r4, r0							@ X start coordinate
+	mov   r5, r1							@ Y start coordinate
+	mov   r6, r2							@ Image address
+	
+	add   r7, r4, #32						@ Initialize the length
+	add   r8, r5, #32						@ Initialize the height
+
+	mov   r9, #0							@ Pixel counter
+	mov	  r10, r4							@ r10 = r4, so we can reinitialize r4
+	
+loop1:
+	mov	  r0, r4							@ Pass x coordinate into DrawPixel
+	mov	  r1, r5							@ Pass y coordinate into DrawPixel
+	
+	ldr   r2, [r6, r9, lsl #2]				@ 
+	bl    DrawPixel							@ 
+	add   r9, #1							@
+	add   r4, #1							@
+	
+
+				 
+	cmp   r4, r7							@ Hard coded for easier alterations later on
+	blt   loop1								@ 
+
+	mov    r4, r10							@ Hard coded for easier alterations later on
+	add    r5, #1							@
 			
-	cmp   r5, r8						@ Hard coded for easier alterations later on
-	blt   loop1							@ 
+	cmp   r5, r8							@ Hard coded for easier alterations later on
+	blt   loop1								@ 
+	
+	pop   {r4-r10, pc}						@
+	bx     lr	 							@
+
+	
+//////////////////////////////////////////
+//										//
+//										//
+//										//
+//										//
+//////////////////////////////////////////
+DrawBrick:
+	push {r4- r10, lr}						@
+	
+	mov   r4, r0							@ X start coordinate
+	mov   r5, r1							@ Y start coordinate
+	mov   r6, r2							@ Image address
+	
+	add   r7, r4, #64						@ Initialize the length
+	add   r8, r5, #32						@ Initialize the height
+
+	mov   r9, #0							@ Pixel counter
+	mov	  r10, r4							@ r10 = r4, so we can reinitialize r4
+	
+brickLoop:
+	mov	  r0, r4							@ Pass x coordinate into DrawPixel
+	mov	  r1, r5							@ Pass y coordinate into DrawPixel
+	
+	ldr   r2, [r6, r9, lsl #2]				@ 
+	bl    DrawPixel							@ 
+	add   r9, #1							@
+	add   r4, #1							@
+	
+
+				 
+	cmp   r4, r7							@ Hard coded for easier alterations later on
+	blt   brickLoop							@ 
+
+	mov    r4, r10							@ Hard coded for easier alterations later on
+	add    r5, #1							@
+			
+	cmp   r5, r8							@ Hard coded for easier alterations later on
+	blt   brickLoop							@ 
+	
+	pop   {r4-r10, pc}						@
+	bx     lr	 							@
+
+
+//////////////////////////////////////////
+//										//
+//										//
+//										//
+//										//
+//////////////////////////////////////////
+DrawCursor:
+	push 	{r4- r10, lr}
+	
+	mov   	r4, r0							@ X start coordinate
+	mov   	r5, r1							@ Y start coordinate
+	mov  	r6, r2							@ Image address
+	
+	add   	r7, r4, #64						@ Initialize the width
+	add   	r8, r5, #64 					@ Initialize the height
+	
+	mov   	r9, #0							@ Pixel counter
+	mov		r10, r4							@ r10 holds x start coord for Y iterations
+	
+CursorLoop:
+	mov	  	r0, r4							@ Pass x coordinate into DrawPixel
+	mov	  	r1, r5							@ Pass y coordinate into DrawPixel
+	
+	ldr   	r2, [r6, r9, lsl #2]			@ 
+	bl    	DrawPixel						@	 
+	add   	r9, #1							@
+	add   	r4, #1							@
+	
+
+				 
+	cmp   	r4, r7							@ 
+	blt   	CursorLoop						@ 
+
+	mov		r4, r10							@ r10 returned to r4 for start x coord
+	add    	r5, #1							@
+	
+	cmp		r5, r8							@ 
+	blt		CursorLoop   					@ 
+	
+	pop		{r4-r10, pc}					@
+
+
+//////////////////////////////////////////
+//										//
+//										//
+//										//
+//										//
+//////////////////////////////////////////
+DrawBall:
+	push {r4- r10, lr}						@
+	
+	mov   r4, r0							@ X start coordinate
+	mov   r5, r1							@ Y start coordinate
+	mov   r6, r2							@ Image address
+	
+	add   r7, r4, #16						@ Initialize the length
+	add   r8, r5, #16						@ Initialize the height
+
+	mov   r9, #0							@ Pixel counter
+	mov	  r10, r4							@ r10 = r4, so we can reinitialize r4
+	
+ballLoop:
+	mov	  r0, r4							@ Pass x coordinate into DrawPixel
+	mov	  r1, r5							@ Pass y coordinate into DrawPixel
+	
+	ldr   r2, [r6, r9, lsl #2]				@ 
+	bl    DrawPixel							@ 
+	add   r9, #1							@
+	add   r4, #1							@
+	
+
+				 
+	cmp   r4, r7							@ Hard coded for easier alterations later on
+	blt   ballLoop							@ 
+
+	mov    r4, r10							@ Hard coded for easier alterations later on
+	add    r5, #1							@
+			
+	cmp   r5, r8							@ Hard coded for easier alterations later on
+	blt   ballLoop							@ 
 	
 	pop   {r4-r10, pc}
 	bx     lr	 
 
 
-drawBox:
-	push {r4, r5, r6, r7}
-
-	mov	 r4, r0							@ X coordinate
-	mov	 r5, r1							@ Y coordinate
-
-	mov  r6, #0							@ Initialize length counter
-	mov  r7, #0							@ Initialize height counter
-	
-drawLoop:	
-	cmp  r6, #600						@ Check if the desired length has been exceeded
-	bgt	 reLoop							@ If so, branch to reLoop to reinitialize 
-		
-	//cmp	 r7, #600						@ Check if the desired vertical length has been exceeded
-	//bgt	 done							@ If so, 
-	
-	mov	r0, r4							@ Pass X into the DrawPixel subroutine
-	mov r1, r5							@ Pass Y into the DrawPixel subroutine
-	mov r2, r2  						@ Pass the color into the DrawPixel subroutine
-		
-	bl	DrawPixel						@ Branch to DrawPixel
-	
-	add r6, #1							@ Increment length counter
-	add r4, #1							@ X = X + 1
-	
-	b  drawLoop							@ Branch back to top of inner loop
-	
-reLoop:
-	mov  r4, #200						@ Reinitialize X
-	mov  r6, #0							@ Reinitialize length counter
-	add  r7, #1	
-	add  r5, #1							@ Move one pixel down on the Y axis
-	b    drawLoop						@ Branch back to the top of the loop
-
-	pop	{r4, r5, r6, r7}
-	bx	lr              
-
-
+//////////////////////////////////////////
+//										//
+//										//
+//										//
+//										//
+//////////////////////////////////////////
 DrawPixel:
-	push	{r4, r5}
+	push	{r4, r5}						@
 	
-	offset	.req	r4
+	offset	.req	r4						@
 	ldr		r5, =frameBufferInfo
 	
 	@ offset = (y * width) + x
-	ldr		r3, [r5, #4]	@ r3 = width
+	ldr		r3, [r5, #4]	@ r3 = width	@ 
 	mul		r1, r3
 	add		offset, r0, r1
 	
@@ -131,9 +281,3 @@ frameBufferInfo:
 	.int	0		@ frame buffer pointer
 	.int	0		@ screen width
 	.int	0		@ screen height
-
-
-charBuffer:
-.rept		64
-.byte		0
-.endr
