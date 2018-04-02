@@ -28,10 +28,10 @@ init_left_check:
 	bne		init_right_check
 	sub		r0, r7			//decrease x-coordinate by x amount of pix
 	sub		r2, r7			//decrease ball x coordinate by x amount of pix
-	cmp		r0, #592		//compare the x coordinate to edge of wall
-	movlt		r0, #592		//press the paddle up to the wall
-	cmp		r2, #648		//compare the x coordinate of ball w/ edge of wall
-	movlt		r2, #648		//centerize the ball w/ the paddle
+	cmp		r0, #200		//compare the x coordinate to edge of wall
+	movlt		r0, #200		//press the paddle up to the wall
+	cmp		r2, #200		//compare the x coordinate of ball w/ edge of wall
+	movlt		r2, #200		//centerize the ball w/ the paddle
 	str		r0, [r5]		//update paddle coordinates
 	str		r2, [r6]		//update ball coordinates
 	b		init_draw
@@ -42,8 +42,8 @@ init_right_check:
 	bne		init_draw
 	add		r0, r7 			//increase paddle x-coordinate by x amount of pix
 	add		r2, r7			//increase ball x-coordinate by x amount of pix
-	cmp		r0, #1104		//compare the x coordinate to edge of wall
-	movgt		r0, #1104		//press the paddle up to the wall
+	cmp		r0, #1104		//compare the x coordinate to edge of wall @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@change right boarder 870 is a good end but errors out
+	movgt	r0, #1104		//press the paddle up to the wall
 	ldr		r8, =#1160		//Have to do this or else it gives an error for some reason
 	cmp		r2, r8			//compare the x coordinate of ball w/ edge of wall
 	movgt		r2, r8			//centerize the ball w/ the paddle
@@ -75,8 +75,8 @@ left_check:
 	cmp		r4, #6			//Left button
 	bne		right_check
 	sub		r0, r6			//decrease x-coordinate by x amount of pix
-	cmp		r0, #592		//compare the x coordinate to edge of wall
-	movlt		r0, #592		//press the paddle up to the wall
+	cmp		r0, #200		//compare the x coordinate to edge of wall
+	movlt		r0, #200		//press the paddle up to the wall
 	str		r0, [r5]		//update paddle coordinates
 	b		draw
 
@@ -257,7 +257,7 @@ brick_Collision:
 
 	@First row of the bricks
 	ldr			r10, =brickArray	//Brick array
-	cmp			r1, #236			//see if ball is hitting the 1st row
+	cmp			r1, #230			//see if ball is hitting the 1st row
 	mov			r3, #0
 	blt			continue_Brick_Collision
 	@Second row of the bricks
@@ -358,20 +358,20 @@ wall_Collision:
 	ldr			r7, [r4, #16]	//ball left/right direction: 0 = left, 1 = right
 
 	@Collision left wall
-	cmp			r0, #592		//compare the x coordinate to edge of wall
-	movlt		r0, #592		//press the ball up to the wall
+	cmp			r0, #200		//compare the x coordinate to edge of wall
+	movlt		r0, #200		//press the ball up to the wall
 	movlt		r7, #1			//move right now
 	strlt		r7, [r4, #16]	//Update
 
 	@Collision right wall
-	cmp			r0, #1216		//compare the x coordinate to edge of wall
-	movgt		r0, #1216		//press the ball up to the wall
+	cmp			r0, #1104		//compare the x coordinate to edge of wall
+	movgt		r0, #1104		//press the ball up to the wall
 	movgt		r7, #0			//move left now
 	strgt		r7, [r4, #16]	//update
 
 	@Collision ceiling
-	cmp			r1, #204		//compare the y coordinate to edge of ceiling
-	movlt		r1, #204		//press the ball up to the wall
+	cmp			r1, #220		//compare the y coordinate to edge of ceiling
+	movlt		r1, #200		//press the ball up to the wall
 	movlt		r6, #1			//move down now
 	strlt		r6, [r4, #12]	//update
 

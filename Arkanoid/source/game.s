@@ -8,9 +8,9 @@ drawWin:
 	push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
 
 	mov	r5, #704		//width of image
-	mov	r6, #640		//height of image
-	mov	r7, #560		//x
-	mov	r8, #172		//y
+	mov	r6, #736		//height of image
+	mov	r7, #200		//x
+	mov	r8, #100		//y
 
 	@Set address
 	ldr 	r0, =winner	//address for winner image
@@ -37,9 +37,9 @@ drawGameOver:
 	push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
 
 	mov	r5, #704		//width of image
-	mov	r6, #640		//height of image
-	mov	r7, #560		//x
-	mov	r8, #172		//y
+	mov	r6, #736		//height of image
+	mov	r7, #200		//x
+	mov	r8, #100		//y
 
 	@Set address
 	ldr 	r0, =gameOver	//address for gameover image
@@ -67,8 +67,8 @@ drawGameStats:
 
 	mov	r5, #704		//width of image
 	mov	r6, #32			//height of image
-	mov	r7, #560		//x
-	mov	r8, #140		//y
+	mov	r7, #200		//x
+	mov	r8, #100		//y
 	//ldr r9, =gameStats
 
 	@Set address
@@ -162,7 +162,7 @@ loopFloor:
 	cmp		r9, #20			//Want 20 tiles in the x direction
 	blt		loopFloor
 
-	mov		r7, #592		//x
+	mov		r7, #200		//x
 	mov		r9, #0			//Reset for a new row
 	add		r8, r6			//Add the height to y for offset.
 	add		r4, #1			//increment
@@ -182,8 +182,8 @@ drawBackground:
 	mov			r4, #0			//Increment variable. How many tiles you want to draw
 	mov			r5, #32			//width of image
 	mov			r6, #32			//height of image
-	mov			r7, #560		//x
-	mov			r8, #204		//y
+	mov			r7, #200		//x
+	mov			r8, #100		//y
 	b			testLeft
 loopLeft:
 	ldr 		r0, =wall		//address for wall
@@ -212,8 +212,8 @@ testLeft:
 	mov		r4, #0			//Increment variable. How many tiles you want to draw
 	mov		r5, #32			//width of image
 	mov		r6, #32			//height of image
-	mov		r7, #592		//x
-	mov		r8, #172		//y
+	mov		r7, #200		//x
+	mov		r8, #100		//y
 	b		testCeil
 loopCeil:
 	ldr 	r0, =ceiling			//address for ceiling
@@ -242,8 +242,8 @@ testCeil:
 	mov		r4, #0			//Increment variable. How many tiles you want to draw
 	mov		r5, #32			//width of image
 	mov		r6, #32			//height of image
-	mov		r7, #1232		//x
-	mov		r8, #172		//y
+	mov		r7, #200		//x
+	mov		r8, #100		//y
 
 	@set address
 	ldr 	r0, =rightC			//address for rightcorner
@@ -289,8 +289,8 @@ testCeil:
 	mov		r4, #0			//Increment variable. How many tiles you want to draw
 	mov		r5, #32			//width of image
 	mov		r6, #32			//height of image
-	mov		r7, #1232		//x
-	mov		r8, #204		//y
+	mov		r7, #870		//x
+	mov		r8, #100		//y
 	b		testRight
 loopRight:
 	ldr 	r0, =wall			//address for wall
@@ -320,8 +320,8 @@ testRight:
 	mov		r4, #0			//Increment variable. How many tiles you want in y direction
 	mov		r5, #32			//width of image
 	mov		r6, #32			//height of image
-	mov		r7, #592		//x
-	mov		r8, #204		//y
+	mov		r7, #200		//x
+	mov		r8, #100		//y
 
 loopBack:
 	ldr 	r0, =background	//address for background
@@ -343,7 +343,7 @@ loopBack:
 	cmp		r9, #20			//Want 19 tiles in the x direction
 	blt		loopBack
 
-	mov		r7, #592		//x
+	mov		r7, #200		//x
 	mov		r9, #0			//Reset for a new row
 	add		r8, r6			//Add the height to y for offset.
 	add		r4, #1			//increment
@@ -398,8 +398,8 @@ drawBricks:
 	mov		r4, #0			//Increment variable. How many tiles you want to draw
 	mov		r5, #128		//width of image
 	mov		r6, #32			//height of image
-	mov		r7, #592		//x
-	mov		r8, #204		//y
+	mov		r7, #200		//x
+	mov		r8, #100		//y
 
 	mov		r9, r0
 draw:
@@ -435,23 +435,23 @@ testbrick:
 	add		r7, r5			// increment x
 
 	cmp		r4, #5
-	moveq		r7, #592
+	moveq		r7, #230
 	addeq		r8, r6
 
 	cmp		r4, #10
-	moveq		r7, #592
+	moveq		r7, #230
 	addeq		r8, r6
 
 	cmp		r4, #15
-	moveq		r7, #592
+	moveq		r7, #230
 	addeq		r8, r6
 
 	cmp		r4, #20
-	moveq		r7, #592
+	moveq		r7, #230
 	addeq		r8, r6
 
 	cmp		r4, #25
-	moveq		r7, #592
+	moveq		r7, #230
 	addeq		r8, r6
 
 	cmp		r4, #30

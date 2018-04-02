@@ -116,7 +116,7 @@ drawStart:
 	mov		r8, #100		//y: 780 is center
 
 	@Set address
-	ldr 	r0, =background		//address for startMenu
+	ldr 	r0, =backgroundBlck		//address for startMenu
 
 	@Set w and h
 	ldr 	r1, =imageDimensions 	// w and h
